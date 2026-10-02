@@ -1,0 +1,265 @@
+#include <stdio.h>
+
+int lerInteiro() {
+    int n;
+    scanf("%d", &n);
+    return n;
+}
+
+int quantidade(int max) {
+    int q = 0;
+    printf("Digite a quantidade de elementos do vetor (<= %d): ", max);
+    q = lerInteiro();
+    while (q < 1 || q > max) {
+        printf("Quantidade invalida. Digite novamente: ");
+        q = lerInteiro();
+    }
+    return q;
+}
+
+void selecionarVetor(int v1[], int m, int v2[], int n, int v3[], int r, int **vetorEscolhido, int *tamanho) {
+    int esc = 0;
+    printf("Qual vetor? (1, 2 ou 3)? ");
+    while (esc < 1 || esc > 3) {
+        printf("Opcao invalida. Digite novamente: ");
+        esc = lerInteiro();
+    }
+    if (esc == 1) {
+        *vetorEscolhido = v1;
+        *tamanho = m;
+    }
+    else if (esc == 2) {
+        *vetorEscolhido = v2;
+        *tamanho = n;
+    }
+    else if (esc == 3) {
+        *vetorEscolhido = v3;
+        *tamanho = r;
+    }
+}
+
+int lerVetor1(int *vetor) {
+    int m = quantidade(30);
+    for (int i = 0; i < m; i++) {
+        printf("Elemento %d: ", i + 1);
+        scanf("%d", &vetor[i]);
+    }
+    return m;
+}
+
+int lerVetor2(int *vetor) {
+    int n = quantidade(20);
+    for (int i = 0; i < n; i++) {
+        printf("Elemento %d: ", i + 1);
+        scanf("%d", &vetor[i]);
+    }
+    return n;
+}
+
+int listarVetor(int vetor[], int tamanho) {
+    printf("[ ");
+    for (int i = 0; i < tamanho; i++) {
+        printf("%d ", vetor[i]);
+    }
+    printf("]\n");
+}
+
+int somarVetores(int vetor1[], int m,int vetor2[], int n, int *resultado, int *r){
+    if (m < n)  
+        *r = m;
+    else 
+        *r = n;
+    for (int i = 0; i < *r; i++) {
+            resultado[i] = vetor1[i] + vetor2[i];
+    }
+}
+
+int obterEscalar() {
+    printf("Digite o valor do escalar: ");
+    return lerInteiro();
+}
+
+int multiplicarPorEscalar(int vetor[], int tamanho, int *resultado) {
+    int escalar = obterEscalar();
+    for (int i = 0; i < tamanho; i++) {
+        resultado[i] = vetor[i] * escalar;
+    }
+}
+
+int pesquisarNumero(int vetor[], int tamanho, int numero) {
+    for (int i = 0; i < tamanho; i++) {
+        if (vetor[i] == numero) {
+            return 1; // Número encontrado
+        }
+    }
+    return 0; // Número não encontrado
+}
+
+int elementosExclusivos(int vetor1[], int m, int vetor2[], int n, int *resultado) {
+    int tam = 0;
+    for (int i = 0; i < m; i++) {
+        if (pesquisarNumero(vetor2, n, vetor1[i]) == 0) {
+            resultado[tam] = vetor1[i];
+            tam++;
+        }
+    }
+    for (int i = 0; i < n; i++) {
+        if (pesquisarNumero(vetor1, m, vetor2[i]) == 0) {
+            resultado[tam] = vetor2[i];
+            tam++;
+        }
+    }
+    return tam;
+}
+
+void ordenarVetor(int vetor[], int tamanho) {
+    for (int i = 0; i < tamanho - 1; i++) {
+        for (int j = 0; j < tamanho - i - 1; j++) {
+            if (vetor[j] > vetor[j + 1]) {
+                int temp = vetor[j];
+                vetor[j] = vetor[j + 1];
+                vetor[j + 1] = temp;
+            }
+        }
+    }
+}
+
+int intercalarVetores(int vetor1[], int m, int vetor2[], int n, int *resultado) {
+    ordenarVetor(vetor1, m);
+    ordenarVetor(vetor2, n);
+    int i = 0, j = 0, k = 0;
+    while (i < m && j < n) {
+        if (vetor1[i] < vetor2[j]) {
+            resultado[k] = vetor1[i];
+            i++;
+            k++;
+        }
+        else {
+            resultado[k] = vetor2[j];
+            j++;
+            k++;
+        }
+    }
+    // Copiar os elementos restantes de qualquer vetor
+    while (i < m) {
+        resultado[k] = vetor1[i];
+        i++;
+        k++;
+    }
+    while (j < n) {
+        resultado[k] = vetor2[j];
+        j++;
+        k++;
+    }
+    return k; 
+}
+
+void finalizar() {
+    printf("Finalizando o programa...\n");
+}
+
+int main() {
+
+    int opcao = 0, vetor1[30], m = 0, vetor2[20], n = 0, vetor3[50], r = 0, *escolha, tam, x, escolha5;
+
+    printf("========= Menu =========\n");
+    printf("1) Obter a quantidade M (M <= 30) de elementos e tambem os elementos de um primeiro vetor de nemeros inteiros;\n");
+    printf("2) Obter a quantidade N (N <= 20) de elementos e tambem os elementos de um segundo vetor de numeros inteiros;\n");
+    printf("3) Listar os elementos de um vetor de numeros inteiros;\n");
+    printf("4) Gerar um vetor obtido atraves da adicao de dois vetores de numeros inteiros (adicionar os elementos correspondentes dos dois vetores);\n");
+    printf("5) Gerar um vetor obtido atraves da multiplicacao de um escalar por um vetor de numeros inteiros;\n");
+    printf("6) Pesquisar se um determinado numero existe ou não em um vetor;\n");
+    printf("7) Gerar um vetor obtido a partir de dois vetores, contendo os elementos que aparecem em apenas um dos dois vetores;\n");
+    printf("8) Gerar um vetor obtido pela intercalacao de dois outros vetores ordenados (em ordem crescente de valores), mantendo a ordenacao;\n");
+    printf("9) Finalizar a execução do programa.\n");
+    printf("========================\n");
+
+    while (opcao != 9) {
+
+        printf("--> Escolha uma opcao: ");
+        scanf("%d", &opcao);
+        printf("========================\n");
+
+        if (opcao == 1) { 
+            m = lerVetor1(vetor1);
+        }     
+        else if (opcao == 2) {
+            n = lerVetor2(vetor2);
+        }
+        else if (opcao == 3) {
+            selecionarVetor(vetor1, m, vetor2, n, vetor3, r, &escolha, &tam);
+            listarVetor(escolha, tam);
+        }
+        else if (opcao == 4) {
+            if (m == 0 || n == 0) {
+                printf("Obetenha os dois vetores antes de realizar a soma.\n");
+            }
+            else {
+                somarVetores(vetor1, m, vetor2, n, vetor3, &r);
+                printf("Vetor soma gerado (vetor 3).\n");
+            }
+        }
+        else if (opcao == 5) {
+            printf("Qual vetor deseja multiplicar por um escalar (1 ou 2)? ");
+            scanf("%d", &escolha5);
+            if (escolha5 = 1) {
+                if (m == 0) {
+                    printf("Vetor vazio.\n");
+                }
+                else {
+                    multiplicarPorEscalar(vetor1, m, vetor3);
+                    printf("Vetor gerado. (vetor 3).\n");
+                }
+            }
+            else if (escolha5 = 2) {
+                if (n == 0) {
+                    printf("Vetor vazio.\n");
+                }
+                else {
+                    multiplicarPorEscalar(vetor2, n, vetor3);
+                    printf("Vetor gerado. (vetor 3).\n");
+                }
+            }
+            else {
+                printf("Opcao invalida.\n");
+            }
+        }
+        else if (opcao == 6) {
+            selecionarVetor(vetor1, m, vetor2, n, vetor3, r, &escolha, &tam);
+            printf("Digite o numero a ser pesquisado: ");
+            x = lerInteiro();
+            if (pesquisarNumero(escolha, tam, x)) {
+                printf("O numero %d existe no vetor.\n", x);
+            }
+            else {
+                printf("O numero %d nao existe no vetor.\n", x);
+            }
+        }
+        else if (opcao == 7) {
+            if (m == 0 || n == 0) {
+                printf("Obetenha os dois vetores antes de realizar a operacao.\n");
+            }
+            else {
+                r = elementosExclusivos(vetor1, m, vetor2, n, vetor3);
+                printf("Vetor gerado (vetor 3).\n");
+            }
+        } 
+        else if (opcao == 8) {
+            if (m == 0 || n == 0) {
+                printf("Obetenha os dois vetores antes de realizar a operacao.\n");
+            }
+            else {
+                r = intercalarVetores(vetor1, m, vetor2, n, vetor3);
+                printf("Vetor intercalado gerado (vetor 3).\n");
+            }
+        }    
+        else if (opcao == 9) {
+            finalizar();
+        }
+        else {
+            printf("Opcao invalida.\n");
+        }
+    }
+
+    return 0;
+}
