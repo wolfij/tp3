@@ -20,6 +20,7 @@ int quantidade(int max) {
 void selecionarVetor(int v1[], int m, int v2[], int n, int v3[], int r, int **vetorEscolhido, int *tamanho) {
     int esc = 0;
     printf("Qual vetor? (1, 2 ou 3)? ");
+    esc = lerInteiro();
     while (esc < 1 || esc > 3) {
         printf("Opcao invalida. Digite novamente: ");
         esc = lerInteiro();
@@ -56,7 +57,7 @@ int lerVetor2(int *vetor) {
     return n;
 }
 
-int listarVetor(int vetor[], int tamanho) {
+void listarVetor(int vetor[], int tamanho) {
     printf("[ ");
     for (int i = 0; i < tamanho; i++) {
         printf("%d ", vetor[i]);
@@ -64,7 +65,7 @@ int listarVetor(int vetor[], int tamanho) {
     printf("]\n");
 }
 
-int somarVetores(int vetor1[], int m,int vetor2[], int n, int *resultado, int *r){
+void somarVetores(int vetor1[], int m,int vetor2[], int n, int *resultado, int *r){
     if (m < n)  
         *r = m;
     else 
@@ -79,7 +80,7 @@ int obterEscalar() {
     return lerInteiro();
 }
 
-int multiplicarPorEscalar(int vetor[], int tamanho, int *resultado) {
+void multiplicarPorEscalar(int vetor[], int tamanho, int *resultado) {
     int escalar = obterEscalar();
     for (int i = 0; i < tamanho; i++) {
         resultado[i] = vetor[i] * escalar;
@@ -89,10 +90,10 @@ int multiplicarPorEscalar(int vetor[], int tamanho, int *resultado) {
 int pesquisarNumero(int vetor[], int tamanho, int numero) {
     for (int i = 0; i < tamanho; i++) {
         if (vetor[i] == numero) {
-            return 1; // Número encontrado
+            return 1;
         }
     }
-    return 0; // Número não encontrado
+    return 0; 
 }
 
 int elementosExclusivos(int vetor1[], int m, int vetor2[], int n, int *resultado) {
@@ -140,7 +141,6 @@ int intercalarVetores(int vetor1[], int m, int vetor2[], int n, int *resultado) 
             k++;
         }
     }
-    // Copiar os elementos restantes de qualquer vetor
     while (i < m) {
         resultado[k] = vetor1[i];
         i++;
@@ -202,7 +202,7 @@ int main() {
         else if (opcao == 5) {
             printf("Qual vetor deseja multiplicar por um escalar (1 ou 2)? ");
             scanf("%d", &escolha5);
-            if (escolha5 = 1) {
+            if (escolha5 == 1) {
                 if (m == 0) {
                     printf("Vetor vazio.\n");
                 }
@@ -211,7 +211,7 @@ int main() {
                     printf("Vetor gerado. (vetor 3).\n");
                 }
             }
-            else if (escolha5 = 2) {
+            else if (escolha5 == 2) {
                 if (n == 0) {
                     printf("Vetor vazio.\n");
                 }
